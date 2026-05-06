@@ -28,7 +28,10 @@ class CMakeBuild(build_ext):
             cmake_args += ["-A", "x64"]
             build_args += ["--", "/m"]
         else:
-            build_args += ["--", "-j4"]
+            # Use all available cores instead of hardcoded -j4
+            import multiprocessing
+            jobs = multiprocessing.cpu_count()
+            build_args += ["--", f"-j{jobs}"]
 
         build_temp = Path(self.build_temp) / ext.name
         build_temp.mkdir(parents=True, exist_ok=True)
@@ -93,10 +96,4 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Topic :: Multimedia :: Sound/Audio :: Speech",
-        "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    ],
-    zip_safe=False,
-)
+        "Progr
