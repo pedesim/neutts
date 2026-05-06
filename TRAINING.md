@@ -31,6 +31,9 @@ An example finetuning config lives in `examples/finetune_config.yaml`.
 > [!TIP]
 > In my own experiments, a warmup ratio of `0.05` combined with a cosine scheduler worked well for small datasets (~1-5 hours). Worth trying before tuning the learning rate.
 
+> [!NOTE]
+> Personal note: I've had good results with `gradient_accumulation_steps: 4` when running on a single GPU with limited VRAM (e.g. 16GB). This effectively simulates a larger batch size without running out of memory.
+
 # Training from scratch or using additional labels
 
 The NeuTTS Air model is based on the [Qwen2.5 0.5B model](https://huggingface.co/Qwen/Qwen2.5-0.5B). To use this instead of the trained NeuTTS Air model, change the `restore_from` parameter in your config file to `"Qwen/Qwen2.5-0.5B"`.
@@ -41,10 +44,5 @@ Using Qwen means you would need to add the speech token tags to the model vocabu
 codec_special_tokens = [
     # speech token tags to add if using Qwen
     "<|TEXT_REPLACE|>",
-    "<|TEXT_PROMPT_START|>",
-    "<|TEXT_PROMPT_END|>",
-    "<|SPEECH_REPLACE|>",
-    "<|SPEECH_GENERATION_START|>",
-    "<|SPEECH_GENERATION_END|>",
-    # optional additional tags that you can a
+    "<|TEXT
 ```
