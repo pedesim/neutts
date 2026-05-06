@@ -31,10 +31,9 @@ State-of-the-art Voice AI has been locked behind web APIs for too long. NeuTTS i
 
 > [!NOTE]
 > **Personal fork** — I'm using this primarily with NeuTTS-Nano (English) on a Raspberry Pi 5. My notes and experiments are in the `experiments/` directory.
+>
+> **Pi 5 setup tip:** I've had the best results using the Q4 GGUF model with 4 threads (`--threads 4`). The Q8 model works too but runs noticeably warmer and slower under sustained load. Audio output via `aplay` with a USB DAC works great.
 
 ## Model Details
 
-NeuTTS models are built from small LLM backbones - lightweight yet capable language models optimised for text understanding and generation - as well as a powerful combination of technologies designed for efficiency and quality:
-
-- **Supported Languages**: English, Spanish, German, French (model-dependent)
-- **Audio Codec**: [Ne
+NeuTTS models are built from small LLM backbones - lightweight yet capable language models optimised for text understanding and generation - as well as a powerfu
