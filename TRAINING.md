@@ -28,6 +28,9 @@ An example finetuning config lives in `examples/finetune_config.yaml`.
 - We generally find that you do not need many steps for finetuning. For example, for a dataset of 10 hours, 1000 to 2000 steps is often sufficient.
 - A warmup ratio as well as different learning rate schedulers can be experimented with to see what works best for your dataset.
 
+> [!TIP]
+> In my own experiments, a warmup ratio of `0.05` combined with a cosine scheduler worked well for small datasets (~1-5 hours). Worth trying before tuning the learning rate.
+
 # Training from scratch or using additional labels
 
 The NeuTTS Air model is based on the [Qwen2.5 0.5B model](https://huggingface.co/Qwen/Qwen2.5-0.5B). To use this instead of the trained NeuTTS Air model, change the `restore_from` parameter in your config file to `"Qwen/Qwen2.5-0.5B"`.
@@ -43,18 +46,5 @@ codec_special_tokens = [
     "<|SPEECH_REPLACE|>",
     "<|SPEECH_GENERATION_START|>",
     "<|SPEECH_GENERATION_END|>",
-    # optional additional tags that you can add to enable features if you have the labels in your dataset
-    "<|EN|>",
-    "<|ZH|>",
-    "<|LAUGHING|>",
-    "<|WHISPERING|>",
-]
-codec_tokens = [f"<|speech_{idx}|>" for idx in range(config.codebook_size)]
-
-new_tokens = codec_special_tokens + codec_tokens
-n_added_tokens = tokenizer.add_tokens(new_tokens)
-model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
-model.vocab_size = len(tokenizer)
+    # optional additional tags that you can a
 ```
-
-You can then modify the input to the model to include these additional labels. For example, if you have speaker IDs or emotion labels, you can concatenate them with the phoneme tokens before passing them to the model.
