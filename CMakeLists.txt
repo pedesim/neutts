@@ -29,6 +29,8 @@ ExternalProject_Add(espeak_ng_external
         # Adding extra language support for personal use
         -DEXTRA_de:BOOL=ON
         -DEXTRA_fr:BOOL=ON
+        -DEXTRA_es:BOOL=ON
+        -DEXTRA_pt:BOOL=ON
         # Need to explicitly add ucd include directory for CI
         "-DCMAKE_C_FLAGS=-D_FILE_OFFSET_BITS=64 -I${ESPEAKNG_BUILD_DIR}/src/espeak_ng_external/src/ucd-tools/src/include"
         "-DCMAKE_CXX_FLAGS=-D_FILE_OFFSET_BITS=64 -I${ESPEAKNG_BUILD_DIR}/src/espeak_ng_external/src/ucd-tools/src/include"
