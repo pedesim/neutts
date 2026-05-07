@@ -37,8 +37,9 @@ An example finetuning config lives in `examples/finetune_config.yaml`.
 > [!TIP]
 > If you're finetuning on a very small dataset (under 30 minutes), consider using a lower learning rate around `5e-6` and keeping steps under 500 to avoid overfitting. I noticed the model starts to sound robotic/repetitive past that point on tiny datasets.
 
+> [!NOTE]
+> Personal note: On my RTX 3090 (24GB VRAM), I found that setting `per_device_train_batch_size: 2` with `gradient_accumulation_steps: 8` gave more stable loss curves than a batch size of 4 with accumulation of 4, even though the effective batch size is the same. Your mileage may vary.
+
 # Training from scratch or using additional labels
 
-The NeuTTS Air model is based on the [Qwen2.5 0.5B model](https://huggingface.co/Qwen/Qwen2.5-0.5B). To use this instead of the trained NeuTTS Air model, change the `restore_from` parameter in your config file to `"Qwen/Qwen2.5-0.5B"`.
-
-Using Qwen means you would need to add the speech token tags to the model vocabulary. With either Qwen or NeuTTS you can al
+The NeuTTS Air model is based on the [Qwen2.5 0.5B model](https://huggingface.co/Qwen/Qwen2.5
