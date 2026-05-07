@@ -34,15 +34,11 @@ An example finetuning config lives in `examples/finetune_config.yaml`.
 > [!NOTE]
 > Personal note: I've had good results with `gradient_accumulation_steps: 4` when running on a single GPU with limited VRAM (e.g. 16GB). This effectively simulates a larger batch size without running out of memory.
 
+> [!TIP]
+> If you're finetuning on a very small dataset (under 30 minutes), consider using a lower learning rate around `5e-6` and keeping steps under 500 to avoid overfitting. I noticed the model starts to sound robotic/repetitive past that point on tiny datasets.
+
 # Training from scratch or using additional labels
 
 The NeuTTS Air model is based on the [Qwen2.5 0.5B model](https://huggingface.co/Qwen/Qwen2.5-0.5B). To use this instead of the trained NeuTTS Air model, change the `restore_from` parameter in your config file to `"Qwen/Qwen2.5-0.5B"`.
 
-Using Qwen means you would need to add the speech token tags to the model vocabulary. With either Qwen or NeuTTS you can also add additional custom tags. Both of these steps can be done as such in the script after loading the model:
-
-```python
-codec_special_tokens = [
-    # speech token tags to add if using Qwen
-    "<|TEXT_REPLACE|>",
-    "<|TEXT
-```
+Using Qwen means you would need to add the speech token tags to the model vocabulary. With either Qwen or NeuTTS you can al
