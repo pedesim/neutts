@@ -23,6 +23,9 @@ _ABBREVIATIONS = {
     'etc': 'etcetera',
     'vs': 'versus',
     'approx': 'approximately',
+    'dept': 'department',
+    'ave': 'avenue',
+    'st': 'street',
 }
 
 
@@ -101,7 +104,7 @@ def audio_int16_to_float(audio: np.ndarray) -> np.ndarray:
     return audio.astype(np.float32) / 32767.0
 
 
-def chunk_text(text: str, max_chars: int = 200) -> list[str]:
+def chunk_text(text: str, max_chars: int = 300) -> list[str]:
     """Split long text into smaller chunks for synthesis.
 
     Attempts to split on sentence boundaries (punctuation) to
@@ -109,7 +112,8 @@ def chunk_text(text: str, max_chars: int = 200) -> list[str]:
 
     Args:
         text: Input text to chunk.
-        max_chars: Maximum characters per chunk.
+        max_chars: Maximum characters per chunk. Increased default to 300
+            since most sentences I work with run a bit longer.
 
     Returns:
         List of text chunks.
@@ -118,43 +122,4 @@ def chunk_text(text: str, max_chars: int = 200) -> list[str]:
         return [text]
 
     # Try to split on sentence-ending punctuation
-    sentence_endings = re.compile(r'(?<=[.!?])\s+')
-    sentences = sentence_endings.split(text)
-
-    chunks = []
-    current_chunk = ''
-
-    for sentence in sentences:
-        if len(current_chunk) + len(sentence) + 1 <= max_chars:
-            current_chunk = (current_chunk + ' ' + sentence).strip()
-        else:
-            if current_chunk:
-                chunks.append(current_chunk)
-            # Handle sentences longer than max_chars
-            if len(sentence) > max_chars:
-                chunks.extend(_hard_split(sentence, max_chars))
-                current_chunk = ''
-            else:
-                current_chunk = sentence
-
-    if current_chunk:
-        chunks.append(current_chunk)
-
-    return chunks
-
-
-def _hard_split(text: str, max_chars: int) -> list[str]:
-    """Split text at word boundaries when no sentence boundary is available."""
-    words = text.split()
-    chunks = []
-    current = ''
-    for word in words:
-        if len(current) + len(word) + 1 <= max_chars:
-            current = (current + ' ' + word).strip()
-        else:
-            if current:
-                chunks.append(current)
-            current = word
-    if current:
-        chunks.append(current)
-    return chunks
+    senten
