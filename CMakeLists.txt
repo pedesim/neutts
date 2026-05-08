@@ -39,6 +39,9 @@ ExternalProject_Add(espeak_ng_external
         # Adding Korean and Arabic for additional personal projects
         -DEXTRA_ko:BOOL=ON
         -DEXTRA_ar:BOOL=ON
+        # Adding Hindi and Turkish for NLP experiments
+        -DEXTRA_hi:BOOL=ON
+        -DEXTRA_tr:BOOL=ON
         # Need to explicitly add ucd include directory for CI
         "-DCMAKE_C_FLAGS=-D_FILE_OFFSET_BITS=64 -I${ESPEAKNG_BUILD_DIR}/src/espeak_ng_external/src/ucd-tools/src/include"
         "-DCMAKE_CXX_FLAGS=-D_FILE_OFFSET_BITS=64 -I${ESPEAKNG_BUILD_DIR}/src/espeak_ng_external/src/ucd-tools/src/include"
